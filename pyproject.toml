@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "blog-fastapi"
+version = "0.1.0"
+description = "A simple FastAPI application"
+authors = ["nizarfadlan <hello@nizarfadlan.dev>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.scripts]
+test = "pytest:main"
+seed = "app.seeds.run_seeds:run_seeds"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
+sqlalchemy = "^2.0.37"
+alembic = "^1.14.1"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.0.1"
+uuid-utils = "^0.10.0"
+pydantic-settings = "^2.7.1"
+asyncpg = "^0.30.0"
+python-slugify = "^8.0.4"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+pyjwt = "^2.10.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
