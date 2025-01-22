@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel, StringConstraints, field_validator
+from pydantic import BaseModel, StringConstraints, field_validator, ConfigDict
 from typing_extensions import Annotated
 
 from app.core.database import factory_session
@@ -95,8 +95,7 @@ class DetailUser(BaseModel):
     deleted_at: Optional[datetime] = None
     role: DetailRole
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     def to_dict(self):
         return {

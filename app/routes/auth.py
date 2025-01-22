@@ -12,7 +12,7 @@ from app.schemas.auth import LoginRequest, LoginResponse, RefreshTokenResponse
 router = APIRouter(tags=["auth"])
 
 @router.post("/login", response_model=LoginResponse)
-def login(req: LoginRequest = Depends(), db: Session = Depends(get_db)):
+def login(req: LoginRequest, db: Session = Depends(get_db)):
     try:
         user = get_user_by_username(db=db, username=req.username)
 

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, Annotated, List
 
 from fastapi import UploadFile
-from pydantic import BaseModel, StringConstraints, Field
+from pydantic import BaseModel, StringConstraints, Field, ConfigDict
 
 from app.schemas.base import BaseResponse
 from app.schemas.file import FileBase
@@ -22,8 +22,7 @@ class DetailAuthor(BaseModel):
     id: int
     name: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     def to_dict(self):
         return {
@@ -41,8 +40,7 @@ class DetailArticle(BaseModel):
     deleted_at: Optional[datetime] = None
     author: DetailAuthor
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     def to_dict(self):
         return {

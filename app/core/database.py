@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession as SQLAlchemyAsyncSession
 from sqlalchemy.orm import (
     sessionmaker, scoped_session,
+    Session as SQLAlchemySession
 )
 from .config import settings
 
@@ -36,3 +37,12 @@ async def get_async_db():
             yield db
         finally:
             await db.close()
+
+
+def clear_all_data_on_database(db: SQLAlchemySession):
+    db.execute(text("DELETE FROM articles"))
+    db.execute(text("DELETE FROM files"))
+    db.execute(text("DELETE FROM users"))
+    db.execute(text("DELETE FROM roles"))
+
+    db.commit()
