@@ -11,7 +11,7 @@ from .base import Base
 class Article(Base):
     __tablename__ = "articles"
 
-    id = Column("id", UUID(as_uuid=True), primary_key=True, default=lambda: uuid.uuid7())
+    id = Column("id", UUID(as_uuid=True), primary_key=True, default=lambda: str(uuid.uuid7()))
     title = Column("title", VARCHAR(255), nullable=False)
     slug = Column("slug", VARCHAR(255), nullable=False, unique=True)
     content = Column("content", Text, nullable=False)
@@ -34,3 +34,6 @@ class Article(Base):
 
     def soft_delete(self):
         self.deleted_at = datetime.now(UTC)
+
+    def restore(self):
+        self.deleted_at = None

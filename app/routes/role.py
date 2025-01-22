@@ -25,7 +25,7 @@ def get_roles(
         return Ok(data=role_list, message="Roles retrieved successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -46,7 +46,7 @@ def get_role(
         return Ok(data=role, message="Role retrieved successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -73,7 +73,7 @@ def create_role(
         return Ok(message="Role created successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -103,7 +103,7 @@ def update_role(
         return Ok(message="Role updated successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()

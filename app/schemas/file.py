@@ -1,9 +1,8 @@
 from pydantic import BaseModel
-from datetime import datetime
 from typing import Optional
 
 class FileBase(BaseModel):
-    id: str
+    id: int
     file_path: str
 
     class Config:

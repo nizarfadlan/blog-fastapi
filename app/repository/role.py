@@ -14,18 +14,15 @@ def get_role_by_id(db: Session, role_id: int) -> Role:
     query = select(Role).filter_by(id=role_id)
     return db.execute(query).scalar()
 
-def create_role(db: Session, new_role: Role) -> Role:
+def create_role(db: Session, new_role: Role):
     db.add(new_role)
     db.commit()
     db.refresh(new_role)
-    return new_role
 
-def update_role(db: Session, role: Role) -> Role:
+def update_role(db: Session, role: Role):
     db.commit()
     db.refresh(role)
-    return role
 
 def is_role_exists(db: Session, role_name: str) -> bool:
-    query = select(Role).filter_by(name=role_name)
-    return db.execute(query).scalar() is not None
+    return db.query(Role).filter_by(name=role_name).count() > 0
 

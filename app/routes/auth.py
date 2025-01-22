@@ -37,7 +37,7 @@ def login(req: LoginRequest = Depends(), db: Session = Depends(get_db)):
         return response
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -59,7 +59,7 @@ def token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         return {"access_token": access_token, "token_type": "Bearer"}
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -88,7 +88,7 @@ def refresh(request: Request, db: Session = Depends(get_db)):
         return response
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()

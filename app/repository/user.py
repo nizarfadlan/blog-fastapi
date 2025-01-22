@@ -20,30 +20,25 @@ def get_users(db: Session) -> Sequence[User]:
     query = select(User).options(selectinload(User.role))
     return db.execute(query).scalars().all()
 
-def create_user(db: Session, new_user: User) -> User:
+def create_user(db: Session, new_user: User):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
 
-def update_user(db: Session, user: User) -> User:
+def update_user(db: Session, user: User):
     db.commit()
     db.refresh(user)
-    return user
 
-def soft_delete_user(db: Session, user: User) -> User:
+def soft_delete_user(db: Session, user: User):
     user.soft_delete()
     db.commit()
     db.refresh(user)
-    return user
 
-def restore_user(db: Session, user: User) -> User:
+def restore_user(db: Session, user: User):
     user.restore()
     db.commit()
     db.refresh(user)
-    return user
 
-def delete_user(db: Session, user: User) -> User:
+def delete_user(db: Session, user: User):
     db.delete(user)
     db.commit()
-    return user

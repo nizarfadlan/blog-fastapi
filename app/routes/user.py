@@ -27,7 +27,7 @@ def get_users(
         return Ok(data=user_list, message="Users retrieved successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -48,7 +48,7 @@ def get_user(
         return Ok(data=DetailUser.model_validate(user).to_dict(), message="User retrieved successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -75,7 +75,7 @@ def create_user(
         return Ok(message="User created successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -93,6 +93,8 @@ async def update_user(
         user = user_repo.get_user_by_id(db, user_id)
         if not user:
             raise NotFound(message="User not found").http_exception()
+        if user.deleted_at:
+            raise BadRequest(message="User is deleted").http_exception()
 
         validate_username(req.username, exclude_user_id=user_id)
 
@@ -123,7 +125,7 @@ async def update_user(
         raise HTTPException(status_code=422, detail={"loc": ["body", "username"], "msg": str(error), "type": "value_error"})
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -146,7 +148,7 @@ def restore_user(
         return Ok(message="User restored successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -169,7 +171,7 @@ def delete_user(
         return Ok(message="User deleted successfully").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
@@ -192,7 +194,7 @@ def delete_user_permanently(
         return Ok(message="User deleted permanently").json()
     except HTTPException as error:
         raise error
-    except Exception as error:
+    except Exception:
         import traceback
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
