@@ -2,6 +2,16 @@
 
 This is a simple blog API using FastAPI and Postgres.
 
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+  - [Installation with Docker](#installation-with-docker)
+  - [Manual Installation](#manual-installation)
+- [Seed Data](#seed-data)
+- [Testing](#testing)
+
 ## Features
 
 - Create, read, update and delete article/content
@@ -75,4 +85,18 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 You should have the application running on http://127.0.0.1:8000/docs.
 
+## Seed Data
+
+To seed the database with some initial data, run the following command
+
+```bash
+poetry run seed
+```
+
 ## Testing
+
+To run the tests, run the following command
+
+```bash
+poetry run test
+```
