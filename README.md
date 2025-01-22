@@ -4,8 +4,9 @@ This is a simple blog API using FastAPI and Postgres.
 
 ## Features
 
-- Create, read, update and delete posts
+- Create, read, update and delete article/content
 - Create, read, update and delete users
+- Create, read, and update roles
 
 ## Requirements
 
@@ -51,6 +52,7 @@ You should have an api container and postgres container running. Then head to ht
 
 Steps to run the application manually without Docker, make sure you have the requirements installed.
 For the manual installation, you need to have a Postgres database running.
+
 Step 1-3 are the same as the Installation with Docker.
 
 4. Install the dependencies
