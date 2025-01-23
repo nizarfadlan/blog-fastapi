@@ -62,10 +62,11 @@ def get_article_by_id(db: Session, article_id: str) -> DetailArticle | None:
         author=DetailAuthor(id=article.author.id, name=article.author.name)
     ).to_dict()
 
-def create_article(db: Session, new_article: Article):
+def create_article(db: Session, new_article: Article) -> Article:
     db.add(new_article)
     db.commit()
     db.refresh(new_article)
+    return new_article
 
 def update_article(db: Session, article: Article):
     db.commit()

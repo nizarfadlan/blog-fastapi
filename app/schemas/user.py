@@ -64,6 +64,12 @@ class CreateUserRequest(BaseUserRequest):
     def validate_username(cls, value):
         return validate_username(value)
 
+class ReturnIdUser(BaseModel):
+    id: int
+
+class CreateUserResponse(BaseResponse[ReturnIdUser]):
+    pass
+
 class UpdateUserRequest(BaseModel):
     name: Optional[Annotated[str, StringConstraints(min_length=1, max_length=100)]] = None
     username: Optional[Annotated[str, StringConstraints(min_length=1, max_length=20)]] = None

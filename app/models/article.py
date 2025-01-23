@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 
 from slugify import slugify
 from sqlalchemy import Column, Text, ForeignKey, VARCHAR, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from sqlalchemy.dialects.postgresql import UUID
 import uuid_utils as uuid
 
@@ -25,11 +25,19 @@ class Article(Base):
     author = relationship("User", backref="articles", foreign_keys=[author_id])
     thumbnail_file = relationship("File", backref="articles", foreign_keys=[thumbnail_file_id])
 
-    def generate_slug(self):
-        if self.title and isinstance(self.title, str):
-            self.slug = slugify(self.title)
-        else:
+    def generate_slug(self, db: Session):
+        if not self.title or not isinstance(self.title, str):
             raise ValueError("Title must be a non-empty string.")
+
+        base_slug = slugify(self.title)
+        slug = base_slug
+        counter = 1
+
+        while db.query(Article).filter(Article.slug == slug).first() is not None:
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+
+        self.slug = slug
         return self.slug
 
     def soft_delete(self):

@@ -37,7 +37,7 @@ def seed_articles():
             del article_data["author_username"]
 
             article = Article(**article_data)
-            article.slug = article.generate_slug()
+            article.slug = article.generate_slug(db)
 
             existing_article = db.query(Article).filter(Article.slug == article.slug).first()
             if not existing_article:

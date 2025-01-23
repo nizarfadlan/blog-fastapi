@@ -20,10 +20,11 @@ def get_users(db: Session) -> Sequence[User]:
     query = select(User).options(selectinload(User.role))
     return db.execute(query).scalars().all()
 
-def create_user(db: Session, new_user: User):
+def create_user(db: Session, new_user: User) -> User:
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+    return new_user
 
 def update_user(db: Session, user: User):
     db.commit()

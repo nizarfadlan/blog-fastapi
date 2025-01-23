@@ -10,7 +10,7 @@ from app.core.database import get_db
 from app.core.response import InternalServerError, Ok, NotFound, BadRequest
 from app.core.security import get_current_user
 from app.models import Article, File as FileModel
-from app.schemas.article import ListArticleResponse, DetailArticleResponse
+from app.schemas.article import ListArticleResponse, DetailArticleResponse, CreateArticleResponse
 from app.schemas.base import BaseResponse
 from app.schemas.user import User
 import app.repository.file as file_repo
@@ -79,7 +79,7 @@ def get_content_by_id(
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
 
-@router.post("/", dependencies=[Depends(get_current_user)], response_model=BaseResponse)
+@router.post("/", dependencies=[Depends(get_current_user)], response_model=CreateArticleResponse)
 def create_content(
     title: str = Form(min_length=1, max_length=255),
     content: str = Form(min_length=1),
@@ -111,17 +111,17 @@ def create_content(
                 traceback.print_exc()
                 raise HTTPException(status_code=500, detail="Failed to save the uploaded file.")
 
-        article = Article(
+        new_article = Article(
             title=title,
             content=content,
             thumbnail_file_id=thumbnail_file.id if thumbnail_file else None,
             author_id=current_user.id
         )
-        article.slug = article.generate_slug()
-        article_repo.create_article(db, article)
+        new_article.slug = new_article.generate_slug(db)
+        article = article_repo.create_article(db, new_article)
 
         db.commit()
-        return Ok(message="Article created successfully").json()
+        return Ok(data={"id": str(article.id)}, message="Article created successfully").json()
     except HTTPException as error:
         db.rollback()
         if file_path:
@@ -183,7 +183,7 @@ def update_content(
 
         if title is not None:
             article.title = title
-            article.slug = article.generate_slug()
+            article.slug = article.generate_slug(db)
         if content is not None:
             article.content = content
 

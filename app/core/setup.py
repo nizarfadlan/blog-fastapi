@@ -16,6 +16,8 @@ def create_application(
         description=settings.APP_DESCRIPTION,
         version=settings.APP_VERSION,
     )
+    app.get("/")(lambda: {"message": "Welcome to the API"})
+
     app.include_router(router)
 
     app.mount("/static", StaticFiles(directory="uploads"), name="static")

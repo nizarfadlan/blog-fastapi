@@ -5,13 +5,18 @@ from fastapi import UploadFile
 from pydantic import BaseModel, StringConstraints, Field, ConfigDict
 
 from app.schemas.base import BaseResponse
-from app.schemas.file import FileBase
 
 
 class CreateArticleRequest(BaseModel):
     title: Annotated[str, StringConstraints(min_length=1, max_length=255)]
     content: Annotated[str, StringConstraints(min_length=1)]
     thumbnail: Optional[UploadFile] = None
+
+class ReturnIdArticle(BaseModel):
+    id: str
+
+class CreateArticleResponse(BaseResponse[ReturnIdArticle]):
+    pass
 
 class UpdateArticleRequest(BaseModel):
     title: Optional[Annotated[str, StringConstraints(min_length=1, max_length=255)]]

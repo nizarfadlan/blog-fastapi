@@ -8,7 +8,7 @@ from app.core.security import get_current_user, check_user_admin, get_password_h
 from app.models import User
 from app.schemas.base import BaseResponse
 from app.schemas.user import ListUserResponse, DetailUser, DetailUserResponse, CreateUserRequest, UpdateUserRequest, \
-    validate_username
+    validate_username, CreateUserResponse
 import app.repository.user as user_repo
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -53,7 +53,7 @@ def get_user(
         traceback.print_exc()
         return InternalServerError(error="Internal Server Error").http_exception()
 
-@router.post("/", dependencies=[Depends(get_current_user)], response_model=BaseResponse)
+@router.post("/", dependencies=[Depends(get_current_user)], response_model=CreateUserResponse)
 def create_user(
     req: CreateUserRequest,
     db: Session = Depends(get_db),
@@ -70,9 +70,9 @@ def create_user(
             role_id=req.role,
         )
 
-        user_repo.create_user(db, new_user)
+        user = user_repo.create_user(db, new_user)
 
-        return Ok(message="User created successfully").json()
+        return Ok(data={"id":user.id}, message="User created successfully").json()
     except HTTPException as error:
         raise error
     except Exception:
