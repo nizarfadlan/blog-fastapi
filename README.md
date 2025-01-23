@@ -77,7 +77,7 @@ poetry install
 poetry run alembic upgrade head
 ```
 
-6Run the application
+6. Run the application
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
