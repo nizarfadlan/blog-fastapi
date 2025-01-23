@@ -26,8 +26,6 @@ This is a simple blog API using FastAPI and Postgres.
 
 ## Installation
 
-### Installation with Docker
-
 1. Clone the repository
 
 ```bash
@@ -48,6 +46,9 @@ openssl rand -hex 32
 
 `ENVIRONMENT` should be set to `local`, `staging` and `production`, default is `local`
 
+
+### With Docker
+
 4. Docker Compose (Preferred)
 
 Run the following command to start the application
@@ -58,12 +59,20 @@ docker-compose up -d
 
 You should have an api container and postgres container running. Then head to http://127.0.0.1:8000/docs.
 
-### Manual Installation
+### Manual
 
 Steps to run the application manually without Docker, make sure you have the requirements installed.
-For the manual installation, you need to have a Postgres database running.
 
-Step 1-3 are the same as the Installation with Docker.
+To run this project, ensure you have PostgreSQL installed and running on your local machine.
+Next, configure the following settings in the `.env` file according to your local PostgreSQL database details:
+
+- `POSTGRES_USER`: Your database username.  
+- `POSTGRES_PASSWORD`: Your database password.  
+- `POSTGRES_SERVER`: Your database server address (usually `localhost` if running locally).  
+- `POSTGRES_PORT`: Your database port (default: `5432`).  
+- `POSTGRES_DB`: The name of the database to be used.  
+
+Make sure these values match your local PostgreSQL database configuration.
 
 4. Install the dependencies
 
