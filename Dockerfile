@@ -13,12 +13,14 @@ FROM python:3.11-slim
 
 WORKDIR /code
 
+RUN apt-get update && apt-get install -y netcat-openbsd
+
 COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 
+RUN chmod +x /code/entrypoint.sh
 EXPOSE 8000
-
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["sh", "/code/entrypoint.sh"]

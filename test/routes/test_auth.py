@@ -40,13 +40,25 @@ def user(db: Session, role: Role):
     return user
 
 def test_login_successful(db: Session, user: User):
-    response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
 
     assert response.status_code == 200
     assert "access_token" in response.json()["data"]
 
 def test_login_invalid_credentials(db: Session):
-    response = client.post("/login", json={"username": "invaliduser", "password": "invalidpassword"})
+    response = client.post(
+        "/login",
+        json={
+            "username": "invaliduser",
+            "password": "invalidpassword"
+        }
+    )
 
     assert response.status_code == 400
     assert response.json()["detail"]["message"] == "Invalid credentials"
@@ -54,7 +66,10 @@ def test_login_invalid_credentials(db: Session):
 def test_token_successful(db: Session, user: User):
     response = client.post(
         "/token",
-        data={"username": "testuser", "password": "testpassword"},
+        data={
+            "username": "testuser",
+            "password": "testpassword"
+        },
     )
 
     assert response.status_code == 200
@@ -64,7 +79,10 @@ def test_token_successful(db: Session, user: User):
 def test_token_invalid_username(db: Session):
     response = client.post(
         "/token",
-        data={"username": "invaliduser", "password": "testpassword"},
+        data={
+            "username": "invaliduser",
+            "password": "testpassword"
+        },
     )
 
     assert response.status_code == 400
@@ -73,14 +91,23 @@ def test_token_invalid_username(db: Session):
 def test_token_invalid_password(db: Session, user: User):
     response = client.post(
         "/token",
-        data={"username": "testuser", "password": "wrongpassword"},
+        data={
+            "username": "testuser",
+            "password": "wrongpassword"
+        },
     )
 
     assert response.status_code == 400
     assert response.json()["detail"]["message"] == "Invalid credentials"
 
 def test_refresh_token(db: Session, user: User):
-    login_response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    login_response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
     refresh_token = login_response.cookies.get("refresh_token")
 
     client.cookies.set("refresh_token", refresh_token)

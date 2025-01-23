@@ -39,23 +39,36 @@ def user(db: Session, role: Role):
     return user
 
 def test_create_content(db, user):
-    login_response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    login_response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
     assert login_response.status_code == 200
-
     token = login_response.json()["data"]["access_token"]
 
     response = client.post(
         "/content/",
         headers={"Authorization": f"Bearer {token}"},
-        data={"title": "Test Title", "content": "Test Content"},
+        data={
+            "title": "Test Title",
+            "content": "Test Content"
+        },
     )
     assert response.status_code == 200
     assert response.json()["message"] == "Article created successfully"
 
 def test_get_content(db, user):
-    login_response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    login_response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
     assert login_response.status_code == 200
-
     token = login_response.json()["data"]["access_token"]
 
     response = client.get("/content/", headers={"Authorization": f"Bearer {token}"})
@@ -63,9 +76,14 @@ def test_get_content(db, user):
     assert response.json()["message"] == "Articles retrieved successfully"
 
 def test_update_content(db, user):
-    login_response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    login_response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
     assert login_response.status_code == 200
-
     token = login_response.json()["data"]["access_token"]
 
     create_response = client.post(
@@ -84,15 +102,23 @@ def test_update_content(db, user):
     assert response.json()["message"] == "Article updated successfully"
 
 def test_delete_content(db, user):
-    login_response = client.post("/login", json={"username": "testuser", "password": "testpassword"})
+    login_response = client.post(
+        "/login",
+        json={
+            "username": "testuser",
+            "password": "testpassword"
+        }
+    )
     assert login_response.status_code == 200
-
     token = login_response.json()["data"]["access_token"]
 
     create_response = client.post(
         "/content/",
         headers={"Authorization": f"Bearer {token}"},
-        data={"title": "Test Title", "content": "Test Content"},
+        data={
+            "title": "Test Title",
+            "content": "Test Content"
+        },
     )
     content_id = create_response.json()["data"]["id"]
 

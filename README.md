@@ -71,19 +71,33 @@ Step 1-3 are the same as the Installation with Docker.
 poetry install
 ```
 
-5. Run the migrations
+5. Apply the migrations
 
 ```bash
 poetry run alembic upgrade head
 ```
 
-6. Run the application
+6Run the application
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 You should have the application running on http://127.0.0.1:8000/docs.
+
+## Migration
+
+To create a new migration, run the following command
+
+```bash
+poetry run alembic revision --autogenerate -m "migration message"
+```
+
+To apply the migration, run the following command
+
+```bash
+poetry run alembic upgrade head
+```
 
 ## Seed Data
 
