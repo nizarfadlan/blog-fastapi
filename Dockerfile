@@ -2,6 +2,7 @@ FROM python:3.11-slim as requirements-stage
 
 WORKDIR /tmp
 
+RUN pip install --upgrade pip
 RUN pip install poetry
 RUN poetry self add poetry-plugin-export
 
